@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>得分评估</title>
+</head>
+<body>
+    <h1>得分评估</h1>
+    <form id="scoreForm">
+        <label for="scoreS">S:</label>
+        <input type="number" id="scoreS" name="scoreS" required><br><br>
+        <label for="scoreW">W:</label>
+        <input type="number" id="scoreW" name="scoreW" required><br><br>
+        <label for="scoreK">K:</label>
+        <input type="number" id="scoreK" name="scoreK" required><br><br>
+        <label for="scoreQ">Q:</label>
+        <input type="number" id="scoreQ" name="scoreQ" required><br><br>
+        <label for="scoreJ">J:</label>
+        <input type="number" id="scoreJ" name="scoreJ" required><br><br>
+        <button type="button" onclick="evaluateScores()">评估</button>
+    </form>
+    
+    <h2>评估结果</h2>
+    <p id="resultS"></p>
+    <p id="resultW"></p>
+    <p id="resultK"></p>
+    <p id="resultQ"></p>
+    <p id="resultJ"></p>
+    
+    <script>
+        const scoreRanges = {
+            "S": { "非常高": [40, Infinity], "高": [32, 39], "平均值": [25, 31], "低": [16, 24], "非常低": [-Infinity, 15] },
+            "W": { "非常高": [44, Infinity], "高": [37, 43], "平均值": [31, 36], "低": [24, 30], "非常低": [-Infinity, 23] },
+            "K": { "非常高": [44, Infinity], "高": [38, 43], "平均值": [31, 37], "低": [24, 30], "非常低": [-Infinity, 23] },
+            "Q": { "非常高": [47, Infinity], "高": [41, 46], "平均值": [35, 40], "低": [28, 34], "非常低": [-Infinity, 27] },
+            "J": { "非常高": [48, Infinity], "高": [42, 47], "平均值": [35, 41], "低": [29, 34], "非常低": [-Infinity, 28] },
+        };
+
+        function evaluateScore(value, ranges) {
+            for (let key in ranges) {
+                if (value >= ranges[key][0] && value <= ranges[key][1]) {
+                    return key;
+                }
+            }
+            return "无效分值";
+        }
+
+        function evaluateScores() {
+            const scores = {
+                "S": parseInt(document.getElementById('scoreS').value),
+                "W": parseInt(document.getElementById('scoreW').value),
+                "K": parseInt(document.getElementById('scoreK').value),
+                "Q": parseInt(document.getElementById('scoreQ').value),
+                "J": parseInt(document.getElementById('scoreJ').value)
+            };
+            
+            document.getElementById('resultS').innerText = "S: " + evaluateScore(scores["S"], scoreRanges["S"]);
+            document.getElementById('resultW').innerText = "W: " + evaluateScore(scores["W"], scoreRanges["W"]);
+            document.getElementById('resultK').innerText = "K: " + evaluateScore(scores["K"], scoreRanges["K"]);
+            document.getElementById('resultQ').innerText = "Q: " + evaluateScore(scores["Q"], scoreRanges["Q"]);
+            document.getElementById('resultJ').innerText = "J: " + evaluateScore(scores["J"], scoreRanges["J"]);
+        }
+    </script>
+</body>
+</html>
